@@ -249,20 +249,25 @@ EOD;
 
             $content .= \sprintf(' applyBorder="%d"', $style->shouldApplyBorder() ? 1 : 0);
 
-            if ($style->shouldApplyCellAlignment() || $style->shouldWrapText()) {
-                $content .= ' applyAlignment="1">';
-                $content .= '<alignment';
-                if ($style->shouldApplyCellAlignment()) {
-                    $content .= \sprintf(' horizontal="%s"', $style->getCellAlignment());
-                }
-                if ($style->shouldWrapText()) {
-                    $content .= ' wrapText="1"';
-                }
-                $content .= '/>';
-                $content .= '</xf>';
-            } else {
-                $content .= '/>';
+            $content .= ' applyAlignment="1"><alignment ';
+
+            if ($style->shouldWrapText()) {
+                $content .= ' wrapText="1"';
             }
+
+            if ($style->shouldRotateText()) {
+                $content .= ' textRotation="'.$style->getTextRotation().'"';
+            }
+
+            if ($style->shouldHorizontalAlignText()) {
+                $content .= ' horizontal="'.$style->getHorizontalAligment().'"';
+            }
+
+            if ($style->shouldVerticalAlignText()) {
+                $content .= ' vertical="'.$style->getVerticalAligment().'"';
+            }
+
+            $content .= '/></xf>';
         }
 
         $content .= '</cellXfs>';

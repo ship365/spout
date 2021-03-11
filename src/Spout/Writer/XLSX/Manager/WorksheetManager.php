@@ -271,6 +271,20 @@ EOD;
         }
 
         \fwrite($worksheetFilePointer, '</sheetData>');
+
+        //Add "mergeCells" tag and set all merge cell ranges here per one sheet
+        $externalSheet = $worksheet->getExternalSheet();
+        if (!empty($externalSheet->getMergeCells())) {
+            $start = '<mergeCells count="'.count($externalSheet->getMergeCells()).'">';
+            $cells = '';
+            foreach ($externalSheet->getMergeCells() as $mergeRange) {
+                $cells .= '<mergeCell ref="'.$mergeRange.'"/>';
+            }
+            $end = '</mergeCells>';
+
+            \fwrite($worksheetFilePointer, $start.$cells.$end);
+        }
+
         \fwrite($worksheetFilePointer, '</worksheet>');
         \fclose($worksheetFilePointer);
     }

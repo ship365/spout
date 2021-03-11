@@ -184,6 +184,39 @@ class StyleBuilder
     }
 
     /**
+     * @param int $rotation
+     *
+     * @return StyleBuilder
+     */
+    public function setTextRotation(int $rotation)
+    {
+        $this->style->setTextRotation($rotation);
+        return $this;
+    }
+
+    /**
+     * @param string $alignment Example: left,center,right...
+     *
+     * @return StyleBuilder
+     */
+    public function setHorizontalAligment(string $alignment)
+    {
+        $this->style->setHorizontalAligment($alignment);
+        return $this;
+    }
+
+    /**
+     * @param string $alignment Example: bottom,center,top..
+     *
+     * @return StyleBuilder
+     */
+    public function setVerticalAligment(string $alignment)
+    {
+        $this->style->setVerticalAligment($alignment);
+        return $this;
+    }
+
+    /**
      * Returns the configured style. The style is cached and can be reused.
      *
      * @return Style

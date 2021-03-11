@@ -84,6 +84,24 @@ class Style
     /** @var bool */
     private $hasSetFormat = false;
 
+    /** @var bool Whether the rotate text property was set */
+    protected $shouldRotateText = false;
+
+    /** @var int Text rotation */
+    protected $textRotation = 0;
+
+    /** @var bool Whether specific horizontal aligment should be applied */
+    protected $shouldHorizontalAlignText = false;
+
+    /** @var string Horizontal aligment */
+    protected $horizontalAligment;
+
+    /** @var bool Whether specific vertical aligment should be applied */
+    protected $shouldVerticalAlignText = false;
+
+    /** @var string Vertical aligment */
+    protected $verticalAligment;
+
     /**
      * @return int|null
      */
@@ -462,5 +480,89 @@ class Style
     public function shouldApplyFormat()
     {
         return $this->hasSetFormat;
+    }
+
+    /**
+     * @return bool Whether the text rotation should be applied
+     */
+    public function shouldRotateText()
+    {
+        return $this->shouldRotateText;
+    }
+
+    /**
+     * @param int $rotation
+     *
+     * @return Style
+     */
+    public function setTextRotation(int $rotation)
+    {
+        $this->shouldRotateText = true;
+        $this->textRotation = $rotation;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTextRotation()
+    {
+        return $this->textRotation;
+    }
+
+    /**
+     * @return bool Whether the horizontal alignment should be applied
+     */
+    public function shouldHorizontalAlignText()
+    {
+        return $this->shouldHorizontalAlignText;
+    }
+
+    /**
+     * @param string $alignment Available values: left,center,right...
+     *
+     * @return Style
+     */
+    public function setHorizontalAligment(string $alignment)
+    {
+        $this->shouldHorizontalAlignText = true;
+        $this->horizontalAligment = $alignment;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHorizontalAligment()
+    {
+        return $this->horizontalAligment;
+    }
+
+    /**
+     * @return bool Whether the vertical alignment should be applied
+     */
+    public function shouldVerticalAlignText()
+    {
+        return $this->shouldVerticalAlignText;
+    }
+
+    /**
+     * @param string $alignment Availabe values: bottom,center,top..
+     *
+     * @return Style
+     */
+    public function setVerticalAligment(string $alignment)
+    {
+        $this->shouldVerticalAlignText = true;
+        $this->verticalAligment = $alignment;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVerticalAligment()
+    {
+        return $this->verticalAligment;
     }
 }

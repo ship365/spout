@@ -27,6 +27,9 @@ class Sheet
     /** @var SheetManager Sheet manager */
     private $sheetManager;
 
+    /** @var array Array of "from:to" field values */
+    protected $mergeCells = [];
+
     /**
      * @param int $sheetIndex Index of the sheet, based on order in the workbook (zero-based)
      * @param string $associatedWorkbookId ID of the sheet's associated workbook
@@ -86,6 +89,33 @@ class Sheet
         $this->name = $name;
 
         $this->sheetManager->markSheetNameAsUsed($this);
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMergeCells()
+    {
+        return $this->mergeCells;
+    }
+
+    /**
+     * Format: ['from:to']
+     * Example with multiple merges: ['A1:A5','A2:F2','B2:F5']
+     *
+     * 'A1:A5' - Merges in column A rows from 1-5 verticaly
+     * 'A2:F2' - Merges in row 2 from colum A to column F horizontaly
+     * 'B2:F5' - Merges all fields diagonaly from top left B2 til bottm right F5
+     *
+     * @param array $mergeCells Example: ['A1:F1']
+     *
+     * @return Sheet
+     */
+    public function setMergeCells(array $mergeCells)
+    {
+        $this->mergeCells = $mergeCells;
 
         return $this;
     }
