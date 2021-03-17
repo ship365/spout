@@ -49,21 +49,24 @@ abstract class AbstractWorkbook implements WorkbookInterface
     /**
      * Creates a new sheet in the workbook. The current sheet remains unchanged.
      *
+     * @param array $cellWidth
      * @return WorksheetInterface The created sheet
      * @throws \Box\Spout\Common\Exception\IOException If unable to open the sheet for writing
      */
-    abstract public function addNewSheet();
+    abstract public function addNewSheet($cellWidth = []);
 
     /**
      * Creates a new sheet in the workbook and make it the current sheet.
      * The writing will resume where it stopped (i.e. data won't be truncated).
      *
-     * @return WorksheetInterface The created sheet
-     * @throws \Box\Spout\Common\Exception\IOException If unable to open the sheet for writing
+     * @param array $cellWidth
+     *
+     * @return WorksheetInterface|mixed
+     * @throws \Box\Spout\Common\Exception\IOException
      */
-    public function addNewSheetAndMakeItCurrent()
+    public function addNewSheetAndMakeItCurrent($cellWidth = [])
     {
-        $worksheet = $this->addNewSheet();
+        $worksheet = $this->addNewSheet($cellWidth);
         $this->setCurrentWorksheet($worksheet);
 
         return $worksheet;

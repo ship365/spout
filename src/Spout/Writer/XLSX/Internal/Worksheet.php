@@ -63,9 +63,10 @@ EOD;
      * @param \Box\Spout\Writer\XLSX\Helper\SharedStringsHelper $sharedStringsHelper Helper for shared strings
      * @param \Box\Spout\Writer\XLSX\Helper\StyleHelper Helper to work with styles
      * @param bool $shouldUseInlineStrings Whether inline or shared strings should be used
+     * @param array $cellWidth
      * @throws \Box\Spout\Common\Exception\IOException If the sheet data file cannot be opened for writing
      */
-    public function __construct($externalSheet, $worksheetFilesFolder, $sharedStringsHelper, $styleHelper, $shouldUseInlineStrings)
+    public function __construct($externalSheet, $worksheetFilesFolder, $sharedStringsHelper, $styleHelper, $shouldUseInlineStrings, $cellWidth)
     {
         $this->externalSheet = $externalSheet;
         $this->sharedStringsHelper = $sharedStringsHelper;
@@ -77,22 +78,38 @@ EOD;
         $this->stringHelper = new StringHelper();
 
         $this->worksheetFilePath = $worksheetFilesFolder . '/' . strtolower($this->externalSheet->getName()) . '.xml';
-        $this->startSheet();
+        $this->startSheet($cellWidth);
     }
 
     /**
      * Prepares the worksheet to accept data
+     * @param array $cellWidth
      *
      * @return void
      * @throws \Box\Spout\Common\Exception\IOException If the sheet data file cannot be opened for writing
      */
-    protected function startSheet()
+    protected function startSheet($cellWidth = [])
     {
         $this->sheetFilePointer = fopen($this->worksheetFilePath, 'w');
         $this->throwIfSheetFilePointerIsNotAvailable();
 
         fwrite($this->sheetFilePointer, self::SHEET_XML_FILE_HEADER);
-        fwrite($this->sheetFilePointer, '<cols><col min="1" max="100" width="20"/></cols>');
+        if (!empty($cellWidth)) {
+            $cols = '<cols>';
+            $min = 1;
+            $max = 1;
+            foreach ($cellWidth as $width) {
+                if (end($cellWidth)) {
+                    $max = 200;
+                }
+
+                $cols .= '<col min="'.(string)$min.'" max="'.(string)$max.'" width="'.(string)$width.'" />';
+                $min++;
+                $max++;
+            }
+            $cols .= '</cols>';
+            fwrite($this->sheetFilePointer, $cols);
+        }
         fwrite($this->sheetFilePointer, '<sheetData>');
     }
 

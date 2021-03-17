@@ -62,14 +62,16 @@ abstract class AbstractMultiSheetsWriter extends AbstractWriter
     /**
      * Creates a new sheet and make it the current sheet. The data will now be written to this sheet.
      *
-     * @api
-     * @return Common\Sheet The created sheet
-     * @throws \Box\Spout\Writer\Exception\WriterNotOpenedException If the writer has not been opened yet
+     * @param array $cellWidth
+     *
+     * @return Common\Sheet
+     * @throws WriterNotOpenedException
+     * @throws \Box\Spout\Common\Exception\IOException
      */
-    public function addNewSheetAndMakeItCurrent()
+    public function addNewSheetAndMakeItCurrent($cellWidth = [])
     {
         $this->throwIfBookIsNotAvailable();
-        $worksheet = $this->getWorkbook()->addNewSheetAndMakeItCurrent();
+        $worksheet = $this->getWorkbook()->addNewSheetAndMakeItCurrent($cellWidth);
 
         return $worksheet->getExternalSheet();
     }

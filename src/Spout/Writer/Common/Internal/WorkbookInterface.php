@@ -21,10 +21,11 @@ interface WorkbookInterface
      * Creates a new sheet in the workbook and make it the current sheet.
      * The writing will resume where it stopped (i.e. data won't be truncated).
      *
-     * @return WorksheetInterface The created sheet
-     * @throws \Box\Spout\Common\Exception\IOException If unable to open the sheet for writing
+     * @param array $cellWidth
+     *
+     * @return mixed
      */
-    public function addNewSheetAndMakeItCurrent();
+    public function addNewSheetAndMakeItCurrent($cellWidth = []);
 
     /**
      * @return WorksheetInterface[] All the workbook's sheets

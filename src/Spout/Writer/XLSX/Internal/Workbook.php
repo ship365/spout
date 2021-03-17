@@ -77,16 +77,17 @@ class Workbook extends AbstractWorkbook
     /**
      * Creates a new sheet in the workbook. The current sheet remains unchanged.
      *
+     * @param array $cellWidth
      * @return Worksheet The created sheet
      * @throws \Box\Spout\Common\Exception\IOException If unable to open the sheet for writing
      */
-    public function addNewSheet()
+    public function addNewSheet($cellWidth = [])
     {
         $newSheetIndex = count($this->worksheets);
         $sheet = new Sheet($newSheetIndex, $this->internalId);
 
         $worksheetFilesFolder = $this->fileSystemHelper->getXlWorksheetsFolder();
-        $worksheet = new Worksheet($sheet, $worksheetFilesFolder, $this->sharedStringsHelper, $this->styleHelper, $this->shouldUseInlineStrings);
+        $worksheet = new Worksheet($sheet, $worksheetFilesFolder, $this->sharedStringsHelper, $this->styleHelper, $this->shouldUseInlineStrings, $cellWidth);
         $this->worksheets[] = $worksheet;
 
         return $worksheet;
